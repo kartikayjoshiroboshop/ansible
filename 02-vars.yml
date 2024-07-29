@@ -67,7 +67,7 @@
   tasks:
     - name: ls Command
       ansible.builtin.shell: uptime
-      register: uptime
+      register: out
 
     - name: Print ouptut
       ansible.builtin.debug:
