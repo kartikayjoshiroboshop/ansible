@@ -9,12 +9,6 @@ if [ -z "$1" ]; then
 fi
 
 COMPONENT=$1
-ENV=$2
-
-if [ ! -z "$ENV" ]; then
-  ENV="-${ENV}"
-fi
-
 
 TEMP_ID="lt-0971091a3b421fa56"
 TEMP_VER=1
@@ -40,11 +34,11 @@ CREATE_INSTANCE() {
 
 if [ "$COMPONENT" == "all" ]; then
   for comp in frontend mongodb catalogue redis user cart mysql shipping rabbitmq payment dispatch ; do
-    COMPONENT=$comp$ENV
+    COMPONENT=$comp
     CREATE_INSTANCE
   done
 else
-  COMPONENT=$COMPONENT$ENV
+  COMPONENT=$COMPONENT
   CREATE_INSTANCE
 fi
 
