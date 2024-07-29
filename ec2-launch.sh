@@ -16,9 +16,9 @@ if [ ! -z "$ENV" ]; then
 fi
 
 
-TEMP_ID="lt-0460a6c5d87a104d3"
-TEMP_VER=5
-ZONE_ID=Z06421191721I0AOBUGO2
+TEMP_ID="lt-0040371c153c3a143"
+TEMP_VER=1
+ZONE_ID=Z03176063U3033ZBJYXA7
 
 CREATE_INSTANCE() {
   ## Check if instance is already there
