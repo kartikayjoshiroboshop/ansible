@@ -19,3 +19,20 @@
     - name: Print URL
       ansible.builtin.debug:
         msg: URL - {{URL}}
+
+- name: Play for task level variables
+  hosts: all
+  tasks:
+    - name: Print URL 1
+      ansible.builtin.debug:
+        msg: URL - {{URL}}
+      vars:
+        URL: tasks.example.com
+    - name: Print URL 2
+      ansible.builtin.debug:
+        msg: URL - {{URL}}
+      vars:
+        URL: second-task.example.com
+
+
+## Key take away is task level variable scope is only for that tasks.
