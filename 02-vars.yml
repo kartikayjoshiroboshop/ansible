@@ -36,3 +36,11 @@
 
 
 ## Key take away is task level variable scope is only for that tasks.
+
+
+- name: Play for Inventory variable
+  hosts: all
+  tasks:
+    - name: Print URL
+      ansible.builtin.debug:
+        msg: URL- {{URL}}
