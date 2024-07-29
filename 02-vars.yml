@@ -44,3 +44,19 @@
     - name: Print URL
       ansible.builtin.debug:
         msg: URL- {{URL}}
+
+
+- name: Play for command line variable
+  hosts: all
+  tasks:
+    - name: Print URL
+      ansible.builtin.debug:
+        msg: URL- {{URL}}
+
+- name: Variable from facts
+  hosts: all
+  tasks:
+    - name: Print Fact
+      ansible.builtin.debug:
+        msg: hostname - {{ansible_fqdn}}
+
