@@ -1,0 +1,23 @@
+- name: tag demo on tasks
+  hosts: localhost
+  tasks:
+    - name: catalogue
+      debug:
+        msg: Hello From catalogue
+      tags: catalogue
+    - name: frontend
+      debug:
+        msg: Hello From frontend
+      tags: frontend
+    - name: common
+      debug:
+        msg: Hello from common
+
+- name: DEMO of tag on play level - frontend
+  tags: frontend
+  hosts: localhost
+  tasks:
+    - name: frontend
+      debug:
+        msg: Hello From frontend
+

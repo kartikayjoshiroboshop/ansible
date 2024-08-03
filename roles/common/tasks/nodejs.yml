@@ -1,0 +1,19 @@
+
+- name: Install NODEJS service
+  ansible.builtin.yum:
+    name:
+      - nginx
+      - make
+      - gcc-c++
+    state: installed
+
+- name: Application user setup and download app files
+  import_tasks: app-user-setup.yml
+
+- name: Install NodeJS Dependencies
+  community.general.npm:
+    path: /home/roboshop/{{COMPONENT}}
+  become_user: roboshop
+
+- name: Application user setup and download app files
+  import_tasks: systemd.yml

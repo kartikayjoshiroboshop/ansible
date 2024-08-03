@@ -9,8 +9,13 @@ if [ -z "$1" ]; then
 fi
 
 COMPONENT=$1
+ENV=$2
 
-TEMP_ID="lt-0971091a3b421fa56"
+if [ ! -z "$ENV" ]; then
+  ENV="-${ENV}"
+fi
+
+TEMP_ID="lt-0eb6c26337fc118d7"
 TEMP_VER=1
 ZONE_ID=Z03176063U3033ZBJYXA7
 
@@ -33,12 +38,12 @@ CREATE_INSTANCE() {
 }
 
 if [ "$COMPONENT" == "all" ]; then
-  for comp in frontend mongodb catalogue redis user cart mysql shipping rabbitmq payment dispatch ; do
+  for comp in frontend$ENV mongodb$ENV catalogue$ENV redis$ENV user$ENV cart$ENV mysql$ENV shipping$ENV rabbitmq$ENV payment$ENV dispatch$ENV ; do
     COMPONENT=$comp
     CREATE_INSTANCE
   done
 else
-  COMPONENT=$COMPONENT
+  COMPONENT=$COMPONENT$ENV
   CREATE_INSTANCE
 fi
 

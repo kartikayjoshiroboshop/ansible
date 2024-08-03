@@ -1,0 +1,38 @@
+- name: Install Python service
+  ansible.builtin.yum:
+    name:
+      - python36
+      - gcc
+      - python3-devel -y
+    state: installed
+
+- name: Application user setup and download app files
+  import_tasks: app_user_setup.yml
+
+- name: Install bottle python package
+  ansible.builtin.pip:
+    requirement: /home/roboshop/{{COMPONENT}}/requirements.txt
+    executable: pip3
+
+- name: Updated UID info APP Configuration
+  ansible.builtin.lineinfile:
+    path: /home/roboshop/{{COMPONENT}}/{{COMPONENT}}.ini
+    regexp: '^uid'
+    line: uid={{app_user_info.uid}}
+
+- name: Updated GID info APP Configuration
+  ansible.builtin.lineinfile:
+    path: /home/roboshop/{{COMPONENT}}/{{COMPONENT}}.ini
+    regexp: '^gid'
+    line: gid={{app_user_info.group}}
+
+
+
+- name: compile code
+  ansible.builtin.shell: mvn clean package && mv target/{{COMPONENT}}-1.0.jar {{COMPONENT}}.jar
+  args:
+    chdir: //home/roboshop/{{COMPONENT}}
+  become_user: roboshop
+
+- name: Application user setup and download app files
+  import_tasks: systemd.yml

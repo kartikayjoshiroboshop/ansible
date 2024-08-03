@@ -1,0 +1,35 @@
+#Redis is used for in-memory data storage and allows users to access the data over API.
+#
+#Manual Installation of Redis.
+#Install Redis.
+#  # curl -L https://raw.githubusercontent.com/roboshop-devops-project/redis/main/redis.repo -o /etc/yum.repos.d/redis.repo
+#  # yum install redis -y
+#Update the BindIP from 127.0.0.1 to 0.0.0.0 in config file /etc/redis.conf & /etc/redis/redis.conf
+#
+#Start Redis Database
+#
+## systemctl enable redis
+## systemctl start redis
+
+- name: Copy redis repo
+  ansible.builtin.repo:
+    src: redis.repo
+    dest: /etc/yum.repos.d/redis.repo
+
+- name: Install Redis
+  ansible.builtin.yum:
+    name: redis
+    state: installed
+
+- name: Update redis config file to list to 0.0.0.0
+  ansible.builtin.replace:
+    path: /etc/redis.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+  backup: yes
+
+- name: Start Redis service
+  ansible.builtin.systemd:
+    name: redis
+    state: started
+    enabled: yes
