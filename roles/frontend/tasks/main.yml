@@ -1,63 +1,51 @@
-#  The frontend is the service in RobotShop to serve the web content over Nginx.
-#
-#    To Install Nginx.
-#
-#    # yum install nginx -y
-#    # systemctl enable nginx
-#    # systemctl start nginx
-#    Let's download the HTML content that serves the RoboSHop Project UI and deploy under the Nginx path.
-#
-#    # curl -s -L -o /tmp/frontend.zip "https://github.com/roboshop-devops-project/frontend/archive/main.zip"
-#    Deploy in Nginx Default Location.
-#
-#    # cd /usr/share/nginx/html
-#    # rm -rf *
-#    # unzip /tmp/frontend.zip
-#    # mv frontend-main/* .
-#    # mv static/* .
-#    # rm -rf frontend-master static README.md
-#    # mv localhost.conf /etc/nginx/default.d/roboshop.conf
-#    Finally restart the service once to effect the changes.
-#
-#  # systemctl restart nginx
-
-
-
 - name: Install Nginx
   ansible.builtin.yum:
     name: nginx
     state: installed
 
-- name: Download frontend schema files
+- name: Download and UnZip the Frontend Content
   ansible.builtin.import_role:
     name: common
     tasks_from: download
 
-- name: Remove old html web page
+- name: Remove Old Html Web Pages
   ansible.builtin.file:
     path: /usr/share/nginx/html
     state: absent
 
+- name: Create HTML Dir
+  ansible.builtin.file:
+    path: /usr/share/nginx/html
+    state: directory
 
-- name: Copy the HTML files
-  ansible.builtin.copy:
-    src: /tmp/frontend-main/static/
-    dest: /usr/share/nginx/html/
+#- name: Copy the HTML Files
+#  ansible.builtin.copy:
+#    src: /tmp/frontend-main/static/
+#    dest: /usr/share/nginx/html/
+#    remote_src: yes
+
+- name: Unzip {{COMPONENT}}
+  ansible.builtin.unarchive:
+    src: /tmp/{{COMPONENT}}-{{APP_VERSION}}.zip
+    dest: /usr/share/nginx/html
     remote_src: yes
 
-- name: Reverse proxy configuration
-  ansible.builtin.copy:
+- name: Copy roboshop reverse proxy configuration
+  ansible.builtin.template:
     src: roboshop.conf
     dest: /etc/nginx/default.d/roboshop.conf
+  #notify: Restart Nginx
 
-#- name: Enable service NGINX, and not touch the state
-#  ansible.builtin.service:
-#    name: nginx
-#    enabled: yes
+- name: Copy Nignx Main Config
+  ansible.builtin.template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  #notify: Restart Nginx
 
 - name: Start Nginx
   ansible.builtin.systemd:
     name: nginx
     state: restarted
     enabled: yes
+  ignore_errors: yes
 

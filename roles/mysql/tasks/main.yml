@@ -15,8 +15,8 @@
 - name: Install MySQL server & Ansible MySQL Modules
   ansible.builtin.yum:
     name:
-      - mysql-community-server
-      - MySQL-python
+    - mysql-community-server
+    - MySQL-python
     state: installed
 
 - name: Start MySQL service
@@ -87,4 +87,5 @@
     target: /tmp/mysql-main/shipping.sql
     login_user: root
     login_password: "{{MYSQL_ROOT_PASSWORD}}"
+
 

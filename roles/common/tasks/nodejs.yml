@@ -1,19 +1,24 @@
+- name: Setup NodeJs repo
+  shell: curl -fsSL https://rpm.nodesource.com/setup_lts.x | bash -
 
-- name: Install NODEJS service
+- name: Install NodeJS Service
   ansible.builtin.yum:
     name:
-      - nginx
+      - nodejs
       - make
       - gcc-c++
     state: installed
 
-- name: Application user setup and download app files
+- name: Application User Setup and Download App Files
   import_tasks: app-user-setup.yml
 
-- name: Install NodeJS Dependencies
+- name: Install NodejS Dependencies.
   community.general.npm:
     path: /home/roboshop/{{COMPONENT}}
   become_user: roboshop
 
-- name: Application user setup and download app files
+- name: Setup Service and Start Service
   import_tasks: systemd.yml
+
+
+

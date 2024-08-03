@@ -1,0 +1,18 @@
+#groups:
+#{% for component in COMPONENTS %}
+#  - name: {{component}} Application Alert
+#    rules:
+#      - alert: {{component}} Application Down
+#        expr: node_systemd_unit_state{job="ec2-nodes", name="{{component|lower}}.service", state="active"} == 0
+#        for: 1m
+#        labels:
+#          severity: critical
+#          type: applicationAlerts
+#          kind: serviceAlert
+#          appName: {{component|lower}}
+#        annotations:
+#          summary: "{{component}} Component Service Down - IP - {%raw%}[{{ $labels.instance}}], Name - [{{ $labels.instanceName}}]"{%endraw%}
+#
+#          description: "{{component}} Component Service Down - IP - {%raw%}[{{ $labels.instance}}], Name - [{{ $labels.instanceName}}]"{%endraw%}
+#
+#{% endfor %}

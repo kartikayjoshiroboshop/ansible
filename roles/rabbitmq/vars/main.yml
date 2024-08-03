@@ -1,1 +1,2 @@
 COMPONENT: rabbitmq
+COMPONENT_TYPE: DB

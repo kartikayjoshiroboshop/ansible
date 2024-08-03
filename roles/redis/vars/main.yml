@@ -1,1 +1,2 @@
-COMPONENT: payment
+COMPONENT: redis
+COMPONENT_TYPE: DB
